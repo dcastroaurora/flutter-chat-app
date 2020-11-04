@@ -1,4 +1,8 @@
+import '../../../helpers/show_alert.dart';
+
+import '../../../services/auth_services.dart';
 import 'package:chat/widgets/custom_button.dart';
+import 'package:provider/provider.dart';
 
 import '../../../widgets/custom_input.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +40,37 @@ class _RegisterFormState extends State<RegisterForm> {
             textEditingController: _passwordController,
             isPassword: true,
           ),
-          CustomButton(
-            color: Colors.blue[700],
-            text: 'Log In',
-            function: () {},
-          ),
+          Selector<AuthService, bool>(
+            selector: (_, authService) => authService.loading,
+            builder: (_, loading, __) {
+              return CustomButton(
+                color: Colors.blue[700],
+                text: 'Register',
+                function: loading
+                    ? null
+                    : () async {
+                        FocusScope.of(context).unfocus();
+
+                        final response =
+                            await context.read<AuthService>().register(
+                                  _nameController.text.trim(),
+                                  _emailController.text.trim(),
+                                  _passwordController.text.trim(),
+                                );
+
+                        if (response.ok) {
+                          Navigator.pushReplacementNamed(context, 'users');
+                        } else {
+                          showAlert(
+                            context,
+                            'Incorrect Register',
+                            response.message,
+                          );
+                        }
+                      },
+              );
+            },
+          )
         ],
       ),
     );

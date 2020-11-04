@@ -10,7 +10,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return RaisedButton(
       onPressed: this.function,
       color: this.color,
       shape: RoundedRectangleBorder(
