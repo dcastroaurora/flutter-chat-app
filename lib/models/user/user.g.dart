@@ -21,3 +21,19 @@ Map<String, dynamic> _$_$_UserToJson(_$_User instance) => <String, dynamic>{
       'name': instance.name,
       'uid': instance.uid,
     };
+
+_$_UserResponse _$_$_UserResponseFromJson(Map<String, dynamic> json) {
+  return _$_UserResponse(
+    ok: json['ok'] as bool,
+    users: (json['users'] as List)
+        ?.map(
+            (e) => e == null ? null : User.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$_$_UserResponseToJson(_$_UserResponse instance) =>
+    <String, dynamic>{
+      'ok': instance.ok,
+      'users': instance.users?.map((e) => e?.toJson())?.toList(),
+    };

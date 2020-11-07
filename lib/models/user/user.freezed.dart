@@ -183,3 +183,157 @@ abstract class _User implements User {
   @override
   _$UserCopyWith<_User> get copyWith;
 }
+
+UserResponse _$UserResponseFromJson(Map<String, dynamic> json) {
+  return _UserResponse.fromJson(json);
+}
+
+/// @nodoc
+class _$UserResponseTearOff {
+  const _$UserResponseTearOff();
+
+// ignore: unused_element
+  _UserResponse call({bool ok, List<User> users}) {
+    return _UserResponse(
+      ok: ok,
+      users: users,
+    );
+  }
+
+// ignore: unused_element
+  UserResponse fromJson(Map<String, Object> json) {
+    return UserResponse.fromJson(json);
+  }
+}
+
+/// @nodoc
+// ignore: unused_element
+const $UserResponse = _$UserResponseTearOff();
+
+/// @nodoc
+mixin _$UserResponse {
+  bool get ok;
+  List<User> get users;
+
+  Map<String, dynamic> toJson();
+  $UserResponseCopyWith<UserResponse> get copyWith;
+}
+
+/// @nodoc
+abstract class $UserResponseCopyWith<$Res> {
+  factory $UserResponseCopyWith(
+          UserResponse value, $Res Function(UserResponse) then) =
+      _$UserResponseCopyWithImpl<$Res>;
+  $Res call({bool ok, List<User> users});
+}
+
+/// @nodoc
+class _$UserResponseCopyWithImpl<$Res> implements $UserResponseCopyWith<$Res> {
+  _$UserResponseCopyWithImpl(this._value, this._then);
+
+  final UserResponse _value;
+  // ignore: unused_field
+  final $Res Function(UserResponse) _then;
+
+  @override
+  $Res call({
+    Object ok = freezed,
+    Object users = freezed,
+  }) {
+    return _then(_value.copyWith(
+      ok: ok == freezed ? _value.ok : ok as bool,
+      users: users == freezed ? _value.users : users as List<User>,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$UserResponseCopyWith<$Res>
+    implements $UserResponseCopyWith<$Res> {
+  factory _$UserResponseCopyWith(
+          _UserResponse value, $Res Function(_UserResponse) then) =
+      __$UserResponseCopyWithImpl<$Res>;
+  @override
+  $Res call({bool ok, List<User> users});
+}
+
+/// @nodoc
+class __$UserResponseCopyWithImpl<$Res> extends _$UserResponseCopyWithImpl<$Res>
+    implements _$UserResponseCopyWith<$Res> {
+  __$UserResponseCopyWithImpl(
+      _UserResponse _value, $Res Function(_UserResponse) _then)
+      : super(_value, (v) => _then(v as _UserResponse));
+
+  @override
+  _UserResponse get _value => super._value as _UserResponse;
+
+  @override
+  $Res call({
+    Object ok = freezed,
+    Object users = freezed,
+  }) {
+    return _then(_UserResponse(
+      ok: ok == freezed ? _value.ok : ok as bool,
+      users: users == freezed ? _value.users : users as List<User>,
+    ));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+
+/// @nodoc
+class _$_UserResponse implements _UserResponse {
+  const _$_UserResponse({this.ok, this.users});
+
+  factory _$_UserResponse.fromJson(Map<String, dynamic> json) =>
+      _$_$_UserResponseFromJson(json);
+
+  @override
+  final bool ok;
+  @override
+  final List<User> users;
+
+  @override
+  String toString() {
+    return 'UserResponse(ok: $ok, users: $users)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _UserResponse &&
+            (identical(other.ok, ok) ||
+                const DeepCollectionEquality().equals(other.ok, ok)) &&
+            (identical(other.users, users) ||
+                const DeepCollectionEquality().equals(other.users, users)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(ok) ^
+      const DeepCollectionEquality().hash(users);
+
+  @override
+  _$UserResponseCopyWith<_UserResponse> get copyWith =>
+      __$UserResponseCopyWithImpl<_UserResponse>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_UserResponseToJson(this);
+  }
+}
+
+abstract class _UserResponse implements UserResponse {
+  const factory _UserResponse({bool ok, List<User> users}) = _$_UserResponse;
+
+  factory _UserResponse.fromJson(Map<String, dynamic> json) =
+      _$_UserResponse.fromJson;
+
+  @override
+  bool get ok;
+  @override
+  List<User> get users;
+  @override
+  _$UserResponseCopyWith<_UserResponse> get copyWith;
+}

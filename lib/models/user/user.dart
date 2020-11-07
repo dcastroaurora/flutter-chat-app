@@ -14,3 +14,12 @@ abstract class User with _$User {
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
+
+@freezed
+abstract class UserResponse with _$UserResponse {
+  @JsonSerializable(explicitToJson: true)
+  const factory UserResponse({bool ok, List<User> users}) = _UserResponse;
+
+  factory UserResponse.fromJson(Map<String, dynamic> json) =>
+      _$UserResponseFromJson(json);
+}

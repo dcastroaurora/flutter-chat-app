@@ -1,3 +1,5 @@
+import '../../services/socket_services.dart';
+
 import '../../pages/login/login_page.dart';
 import '../../pages/user/user_page.dart';
 
@@ -26,6 +28,7 @@ class LoadingPage extends StatelessWidget {
 
     if (authenticated.ok) {
       // Navigator.pushReplacementNamed(context, 'users');
+      context.read<SocketService>().connect();
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(

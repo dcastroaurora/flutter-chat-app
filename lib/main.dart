@@ -3,6 +3,9 @@ import 'package:chat/services/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'services/message_services.dart';
+import 'services/socket_services.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -11,6 +14,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => SocketService()),
+        ChangeNotifierProvider(create: (_) => MessageService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

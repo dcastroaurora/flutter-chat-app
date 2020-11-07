@@ -1,3 +1,5 @@
+import '../../../services/socket_services.dart';
+
 import '../../../helpers/show_alert.dart';
 
 import '../../../services/auth_services.dart';
@@ -59,6 +61,7 @@ class _RegisterFormState extends State<RegisterForm> {
                                 );
 
                         if (response.ok) {
+                          context.read<SocketService>().connect();
                           Navigator.pushReplacementNamed(context, 'users');
                         } else {
                           showAlert(

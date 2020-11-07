@@ -1,3 +1,7 @@
+import '../../services/message_services.dart';
+import '../../services/socket_services.dart';
+import '../../services/user_service.dart';
+
 import '../../services/auth_services.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:provider/provider.dart';
@@ -13,18 +17,16 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
+  List<User> users = [];
 
-  final users = [
-    User(uid: '1', name: 'Diego', email: 'diego@test.com', online: true),
-    User(uid: '2', name: 'José', email: 'jose@test.com', online: true),
-    User(uid: '3', name: 'Manuel', email: 'manuel@test.com', online: false),
-    User(uid: '4', name: 'Frank', email: 'frank@test.com', online: true),
-  ];
+  @override
+  void initState() {
+    this._loadUsers();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    print('cccccccc');
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -36,6 +38,7 @@ class _UserPageState extends State<UserPage> {
         leading: IconButton(
           icon: Icon(Icons.exit_to_app, color: Colors.black87),
           onPressed: () {
+            context.read<SocketService>().disconnect();
             AuthService.deleteToken();
             Navigator.pushReplacementNamed(context, 'login');
           },
@@ -43,14 +46,15 @@ class _UserPageState extends State<UserPage> {
         actions: [
           Container(
             margin: EdgeInsets.only(right: 15.0),
-            child: Icon(Icons.check_circle, color: Colors.blue[400]),
-            // child: Icon(Icons.offline_bolt, color: Colors.red),
+            child: context.watch<SocketService>().serverStatus ==
+                    ServerStatus.Online
+                ? Icon(Icons.check_circle, color: Colors.blue[400])
+                : Icon(Icons.offline_bolt, color: Colors.red),
           )
         ],
       ),
       body: SmartRefresher(
         controller: _refreshController,
-        // enablePullDown: true,
         onRefresh: _loadUsers,
         header: WaterDropHeader(
           complete: Icon(
@@ -65,17 +69,34 @@ class _UserPageState extends State<UserPage> {
   }
 
   void _loadUsers() async {
-    await Future.delayed(Duration(milliseconds: 1000));
+    users = await UserService().getUsers();
+    setState(() {});
     _refreshController.refreshCompleted();
   }
 
-  ListView _userListView() {
+  Widget _userListView() {
     return ListView.separated(
       physics: BouncingScrollPhysics(),
       itemBuilder: (context, index) => _userTile(users[index]),
-      separatorBuilder: (context, index) => Divider(),
+      separatorBuilder: (_, index) => Divider(),
       itemCount: users.length,
     );
+    // return FutureBuilder(
+    //   future: context.watch<UserService>().getUsers(),
+    //   builder: (_, AsyncSnapshot<List<User>> snapShot) {
+    //     if (snapShot.connectionState == ConnectionState.done) {
+    //       users = snapShot.data;
+    //       return ListView.separated(
+    //         physics: BouncingScrollPhysics(),
+    //         itemBuilder: (context, index) => _userTile(users[index]),
+    //         separatorBuilder: (_, index) => Divider(),
+    //         itemCount: snapShot.data.length,
+    //       );
+    //     } else {
+    //       return Center(child: CircularProgressIndicator());
+    //     }
+    //   },
+    // );
   }
 
   ListTile _userTile(User user) {
@@ -94,6 +115,10 @@ class _UserPageState extends State<UserPage> {
           borderRadius: BorderRadius.circular(30.0),
         ),
       ),
+      onTap: () {
+        context.read<MessageService>().userTo = user;
+        Navigator.pushNamed(context, 'chat');
+      },
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:chat/helpers/show_alert.dart';
+import 'package:chat/services/socket_services.dart';
 
 import '../../../services/auth_services.dart';
 import 'package:chat/widgets/custom_button.dart';
@@ -53,6 +54,7 @@ class _LoginFormState extends State<LoginForm> {
                                 );
 
                         if (response.ok) {
+                          context.read<SocketService>().connect();
                           Navigator.pushReplacementNamed(context, 'users');
                         } else {
                           showAlert(
